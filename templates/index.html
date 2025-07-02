@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>CTF Starter Pack — Hacker Web</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <h1>CTF Starter Pack <span style="font-size:22px;font-weight:normal;opacity:.55">WEB</span></h1>
+  <div class="cards">
+
+    <div class="card">
+      <h2>🔓 Brute Force Hash</h2>
+      <label>Hash</label>
+      <input id="bf-hash" type="text" placeholder="hash para crackear">
+      <label>Algoritmo</label>
+      <select id="bf-algo">
+        <option>md5</option><option>sha1</option><option>sha256</option>
+      </select>
+      <button onclick="bruteforce()">Rodar Brute Force</button>
+      <div id="bf-result" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h2>🔠 Decoder/Encoder</h2>
+      <label>Texto</label>
+      <input id="dec-text" type="text" placeholder="texto para decodificar/encodar">
+      <label>Tipo</label>
+      <select id="dec-type">
+        <option value="base64">Base64</option>
+        <option value="rot13">Rot13</option>
+        <option value="hex">Hex</option>
+        <option value="url">URL</option>
+      </select>
+      <label>Ação</label>
+      <select id="dec-action">
+        <option value="decode">Decode</option>
+        <option value="encode">Encode</option>
+      </select>
+      <button onclick="decode()">Rodar Decoder/Encoder</button>
+      <div id="dec-result" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h2>🏁 Buscar Flag em Arquivos</h2>
+      <label>Padrão (ex: <code>CTF{.*?}</code>)</label>
+      <input id="ff-padrao" type="text" placeholder="regex" value="CTF{.*?}">
+      <button onclick="flagfinder()">Procurar Flags</button>
+      <div id="ff-result" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h2>💀 XSS Payload Generator</h2>
+      <label>URL Vulnerável</label>
+      <input id="xss-url" type="text" placeholder="http://localhost/vuln.php?q=">
+      <button onclick="xssgen()">Gerar Payload</button>
+      <div id="xss-result" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h2>🧩 Cracker de Hash Simples</h2>
+      <label>Hash</label>
+      <input id="hc-hash" type="text" placeholder="hash para tentar adivinhar">
+      <button onclick="hashcracker()">Rodar Cracker</button>
+      <div id="hc-result" class="result"></div>
+    </div>
+
+    <div class="card">
+      <h2>📦 Procurar Flag em ZIP</h2>
+      <label>Nome do arquivo zip (na raiz)</label>
+      <input id="zf-file" type="text" placeholder="ex: desafio.zip">
+      <label>Padrão (opcional)</label>
+      <input id="zf-padrao" type="text" value="CTF{.*?}">
+      <button onclick="zipflag()">Procurar no ZIP</button>
+      <div id="zf-result" class="result"></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;color:#60ffc4;opacity:.55;margin:32px 0 18px 0;font-size:14px;">
+    by BlackBoxerX • Projeto educativo
+  </div>
+  <script>
+    async function bruteforce() {
+      document.getElementById("bf-result").textContent = "Processando...";
+      const res = await fetch("/api/bruteforce", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          hash: document.getElementById("bf-hash").value,
+          algo: document.getElementById("bf-algo").value
+        })
+      });
+      const data = await res.json();
+      document.getElementById("bf-result").textContent = data.result;
+    }
+    async function decode() {
+      document.getElementById("dec-result").textContent = "Processando...";
+      const res = await fetch("/api/decode", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: document.getElementById("dec-text").value,
+          type: document.getElementById("dec-type").value,
+          action: document.getElementById("dec-action").value
+        })
+      });
+      const data = await res.json();
+      document.getElementById("dec-result").textContent = data.result;
+    }
+    async function flagfinder() {
+      document.getElementById("ff-result").textContent = "Processando...";
+      const res = await fetch("/api/flagfinder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          padrao: document.getElementById("ff-padrao").value
+        })
+      });
+      const data = await res.json();
+      document.getElementById("ff-result").textContent = data.result;
+    }
+    async function xssgen() {
+      document.getElementById("xss-result").textContent = "Processando...";
+      const res = await fetch("/api/xss", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: document.getElementById("xss-url").value
+        })
+      });
+      const data = await res.json();
+      document.getElementById("xss-result").textContent = data.result;
+    }
+    async function hashcracker() {
+      document.getElementById("hc-result").textContent = "Processando...";
+      const res = await fetch("/api/hashcracker", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          hash: document.getElementById("hc-hash").value
+        })
+      });
+      const data = await res.json();
+      document.getElementById("hc-result").textContent = data.result;
+    }
+    async function zipflag() {
+      document.getElementById("zf-result").textContent = "Processando...";
+      const res = await fetch("/api/zipflag", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          file: document.getElementById("zf-file").value,
+          padrao: document.getElementById("zf-padrao").value
+        })
+      });
+      const data = await res.json();
+      document.getElementById("zf-result").textContent = data.result;
+    }
+  </script>
+</body>
+</html>
+
+
+

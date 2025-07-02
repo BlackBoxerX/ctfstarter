@@ -1,0 +1,100 @@
+body {
+  background: #181a21;
+  color: #23ff7f;
+  font-family: 'Fira Mono', 'Consolas', monospace;
+  margin: 0; padding: 0;
+  min-height: 100vh;
+}
+h1 {
+  color: #23ff7f;
+  text-shadow: 0 0 8px #23ff7f88;
+  margin: 15px 0 10px 0;  /* <-- MENOR */
+  letter-spacing: 2.5px;
+  font-size: 2.1em;
+  text-align: center;
+  user-select: none;
+}
+
+.cards {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto 40px auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: center;
+  padding-top: 30px;   /* <-- NOVO: adiciona espaço entre o título e os cards */
+}
+
+.card {
+  background: #15171b;
+  border: 2px solid #19fc7a70;
+  border-radius: 14px;
+  padding: 22px 18px 17px 18px;
+  box-shadow: 0 0 14px #19fc7a10;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 310px;
+  max-width: 360px;
+  flex: 1 1 340px;
+  margin-bottom: 24px;
+}
+.card h2 {
+  color: #19fc7a;
+  font-size: 1.23em;
+  margin-top: 0;
+  letter-spacing: 1.2px;
+  margin-bottom: 13px;
+  text-align: center;
+  text-shadow: 0 0 7px #19fc7a22;
+  font-weight: bold;
+  user-select: none;
+}
+input, select {
+  width: 100%;
+  padding: 9px 11px;
+  margin: 7px 0 16px 0;
+  border: 1.5px solid #23ff7f90;
+  border-radius: 8px;
+  background: #191e20;
+  color: #19fc7a;
+  font-family: inherit;
+  font-size: 1.01em;
+  outline: none;
+  transition: border-color .17s;
+}
+input:focus, select:focus {
+  border-color: #23ff7f;
+  background: #23272c;
+}
+button {
+  background: linear-gradient(90deg, #23ff7f 60%, #119955 100%);
+  color: #171e1a;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1.09em;
+  cursor: pointer;
+  margin-top: 6px;
+  font-family: inherit;
+}
+button:hover {
+  background: linear-gradient(90deg, #23ff7f 0%, #008844 100%);
+}
+.result {
+  min-height: 20px;
+  background: #181b1e;
+  color: #2aff80;
+  padding: 13px;
+  border-radius: 9px;
+  font-size: 1.02em;
+  margin-top: 12px;
+  word-break: break-all;
+  white-space: pre-line;
+}
+@media (max-width: 900px) {
+  .cards { flex-direction: column; align-items: center; }
+  .card { max-width: 97vw; min-width: 240px; }
+}
